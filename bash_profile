@@ -1,5 +1,5 @@
 # Load the shell dotfiles
-for file in ~/.{prompt,aliases,plugins}; do
+for file in ~/.{aliases,plugins,prompt}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
