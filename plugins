@@ -79,6 +79,6 @@ ac_adapter_disconnected(){
 }
 battery_percentage(){
     COMMAND_OUTPUT=$(cat /sys/class/power_supply/battery/capacity)
-    printf "%02d" "${COMMAND_OUTPUT:--1}"
+    printf "%02d" "${COMMAND_OUTPUT}"
 }
 
