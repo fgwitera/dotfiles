@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+############
+## Colors ##
+############
+normal="\[\e[0m\]"
+white="\[\e[37;1m\]"
+red="\[\e[31;1m\]"
+green="\[\e[32;1m\]"
+yellow="\[\e[33;1m\]"
+cyan="\e[1;49;36m"
+cuser="\[\e[0;32m\]"
+chost="\[\e[38;5;230m\]"
+cdir="\[\e[38;5;117m\]"
+
+#############
+## Symbols ##
+#############
+Line="\342\224\200"
+LineA="\342\224\214\342\224\200"
+SX="\342\234\227"
+LineB="\342\224\224\342\224\200\342\224\200"
+Circle="\342\227\217"
+Face="\342\230\273"
+
+PS1=""
+#PS2=""
+LEFT=""
+RIGHT=""
+
+# User Info
+LEFT+="${normal}${LineA}${normal}${Line}${white}["
+LEFT+="${cuser}\u${normal}@${chost}\h"
+LEFT+="${white}]${normal}${Line}"
+# Directory
+LEFT+="${white}["
+LEFT+="${cdir}\w"
+LEFT+="${white}]${normal}${Line}"
+# SCM
+LEFT+="${white}["
+LEFT+="${white}SCM_Char"
+LEFT+="${white}] "
+LEFT+="${green}SCM_Info"
+
+___cursor_right="\e[500C"
+LEFT+="${___cursor_right}"
+
+__right_len=0
+# Clock
+THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%a %b %d - %H:%M"}
+RIGHT+="${white}["
+RIGHT+="${cyan}$(date +"${THEME_CLOCK_FORMAT}")"
+RIGHT+="${white}]"
+__right_len=$((__right_len + 1 + 18 + 1))
+# Battery
+batp=$(battery_percentage)
+if [ "$batp" -eq 50 ] || [ "$batp" -gt 50 ]; then
+    color=$green
+elif [ "$batp" -lt 50 ] && [ "$batp" -gt 25 ]; then
+    color=$yellow
+elif [ "$batp" -eq 25 ] || [ "$batp" -lt 25 ]; then
+    color=$red
+fi
+charge=""
+ac_adapter_connected && charge="+"
+ac_adapter_disconnected && charge="-"
+RIGHT+="${white}["
+RIGHT+="${color}${charge}${batp}"
+RIGHT+="${white}]"
+__right_len=$((__right_len + 1 + ${#charge} + ${#batp} + 1))
+
+___cursor_adjust="\e[${__right_len}D"
+LEFT+="${___cursor_adjust}"
+
+PS1+="${LEFT}"
+PS1+="${RIGHT}"
+PS1+="\n${white}"
+
+prompt="${normal}${LineB}${white}${Circle}"
+if [ $(sudo -n id -u 2>&1 | grep 0) ]; then
+    prompt="${normal}${LineB}${bold_red}${Face}"
+fi
+PS1+="${prompt}${normal} "
+
+

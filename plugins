@@ -68,7 +68,17 @@ function usage ()
 
 # Battery
 
+ac_adapter_connected(){
+    cat /sys/class/power_supply/battery/status | grep -q 'Charging\|Fully-charged'
+    return $?
+}
+
+ac_adapter_disconnected(){
+    cat /sys/class/power_supply/battery/status | grep -q 'Discharging'
+    return $?
+}
 battery_percentage(){
     COMMAND_OUTPUT=$(cat /sys/class/power_supply/battery/capacity)
     printf "%02d" "${COMMAND_OUTPUT:--1}"
 }
+
