@@ -1,3 +1,5 @@
+# Base
+
 function ips ()
 {
     about 'display all ip addresses for this host'
@@ -62,4 +64,11 @@ function usage ()
             du -h --max-depth=1
         fi
     fi
+}
+
+# Battery
+
+battery_percentage(){
+    COMMAND_OUTPUT=$(cat /sys/class/power_supply/battery/capacity)
+    printf "%02d" "${COMMAND_OUTPUT:--1}"
 }
