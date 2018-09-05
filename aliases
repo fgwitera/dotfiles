@@ -69,3 +69,9 @@ catt() {
     fi
   done
 }
+
+# Temporary
+re(){
+    clear
+    source ~/.prompt
+}
