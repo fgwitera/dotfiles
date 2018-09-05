@@ -65,7 +65,7 @@ charge=""
 ac_adapter_connected && charge="+"
 ac_adapter_disconnected && charge="-"
 RIGHT+="${white}["
-RIGHT+="${color}${charge}${batp}"
+RIGHT+="${color}${charge}\$(battery_percentage)"
 RIGHT+="${white}]"
 __right_len=$((__right_len + 1 + ${#charge} + ${#batp} + 1))
 
