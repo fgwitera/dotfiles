@@ -37,8 +37,15 @@ LEFT+="${white}["
 LEFT+="${cdir}\w"
 LEFT+="${white}]${normal}${Line}"
 # SCM
+function scm_char(){
+    SCM_CHAR=""
+    if [[ -f .git/HEAD ]] && which git &> /dev/null; then SCM_CHAR="±"
+    elif which git &> /dev/null && [[ -n "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]]; then SCM_CHAR="±"
+    fi
+    echo -e "${SCM_CHAR}"
+}
 LEFT+="${white}["
-LEFT+="${white}SCM_Char"
+LEFT+="${white}\$(scm_char)"
 LEFT+="${white}] "
 LEFT+="${green}SCM_Info"
 
