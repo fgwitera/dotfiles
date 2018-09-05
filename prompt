@@ -47,11 +47,11 @@ LEFT+="${___cursor_right}"
 
 __right_len=0
 # Clock
-THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%a %b %d - %H:%M"}
 RIGHT+="${white}["
-RIGHT+="${cyan}$(date +"${THEME_CLOCK_FORMAT}")"
+DATE="${cyan}\d - \A"
+RIGHT+=${DATE}
 RIGHT+="${white}]"
-__right_len=$((__right_len + 1 + 18 + 1))
+__right_len=$((__right_len + 1 + ${#DATE} + 1))
 # Battery
 batp=$(battery_percentage)
 if [ "$batp" -eq 50 ] || [ "$batp" -gt 50 ]; then
