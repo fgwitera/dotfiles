@@ -8,6 +8,9 @@ white="\[\e[37;1m\]"
 red="\[\e[31;1m\]"
 green="\[\e[32;1m\]"
 yellow="\[\e[33;1m\]"
+echo_red="\033[31:1m"
+echo_green="\033[32;1m"
+echo_yellow="\033[33;1m"
 cyan="\e[1;49;36m"
 cuser="\[\e[0;32m\]"
 chost="\[\e[38;5;230m\]"
@@ -60,21 +63,24 @@ RIGHT+=${DATE}
 RIGHT+="${white}]"
 __right_len=$((__right_len + 1 + ${#DATE} + 1))
 # Battery
-batp=$(battery_percentage)
-if [ "$batp" -eq 50 ] || [ "$batp" -gt 50 ]; then
-    color=$green
-elif [ "$batp" -lt 50 ] && [ "$batp" -gt 25 ]; then
-    color=$yellow
-elif [ "$batp" -eq 25 ] || [ "$batp" -lt 25 ]; then
-    color=$red
-fi
-charge=""
-ac_adapter_connected && charge="+"
-ac_adapter_disconnected && charge="-"
+battery(){
+    batp=$(battery_percentage)
+    if [ "$batp" -eq 50 ] || [ "$batp" -gt 50 ]; then
+        color=$echo_green
+    elif [ "$batp" -lt 50 ] && [ "$batp" -gt 25 ]; then
+        color=$echo_yellow
+    elif [ "$batp" -eq 25 ] || [ "$batp" -lt 25 ]; then
+        color=$echo_red
+    fi
+    ac_adapter_connected && charge="+"
+    ac_adapter_disconnected && charge="-"
+    echo -e "${color}${charge}${batp}"
+}
 RIGHT+="${white}["
-RIGHT+="${color}${charge}\$(battery_percentage)"
+BAT="\$(battery)"
+RIGHT+=${BAT}
 RIGHT+="${white}]"
-__right_len=$((__right_len + 1 + ${#charge} + ${#batp} + 1))
+__right_len=$((__right_len + 1 + ${#BAT} -7 + 1))
 
 ___cursor_adjust="\e[${__right_len}D"
 LEFT+="${___cursor_adjust}"
@@ -88,5 +94,3 @@ if [ $(sudo -n id -u 2>&1 | grep 0) ]; then
     prompt="${normal}${LineB}${bold_red}${Face}"
 fi
 PS1+="${prompt}${normal} "
-
-
