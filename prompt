@@ -72,7 +72,9 @@ scm_info() {
 			git rev-parse --short HEAD 2> /dev/null || \
 			echo '(unknown)')";
 
-		[ -n "${s}" ] && s="[${s}]";
+		if [ -n "${s}" ]; then s="[${s}]"
+        else s="[✓]"
+        fi
 
 		echo -e "${echo_white}${s} ${echo_green}${branchName}";
 	else
