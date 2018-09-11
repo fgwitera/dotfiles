@@ -76,7 +76,7 @@ scm_info() {
         else s="[✓]"
         fi
 
-		echo -e "${echo_green}${branchName} ${echo_white}${s}";
+		echo -e "${echo_green}${branchName}${echo_white}${s}";
 	else
 		echo -e "";
 	fi;
