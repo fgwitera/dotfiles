@@ -8,9 +8,10 @@ white="\[\e[37;1m\]"
 red="\[\e[31;1m\]"
 green="\[\e[32;1m\]"
 yellow="\[\e[33;1m\]"
-echo_red="\033[31:1m"
+echo_red="\033[31;1m"
 echo_green="\033[32;1m"
 echo_yellow="\033[33;1m"
+echo_white="\033[37;1m"
 cyan="\e[1;49;36m"
 cuser="\[\e[0;32m\]"
 chost="\[\e[38;5;230m\]"
@@ -26,6 +27,59 @@ LineB="\342\224\224\342\224\200\342\224\200"
 Circle="\342\227\217"
 Face="\342\230\273"
 
+#############
+# GitHelper #
+#############
+scm_info() {
+	local s='';
+	local branchName='';
+
+	# Check if the current directory is in a Git repository.
+	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ]; then
+
+		# check if the current directory is in .git before running git checks
+		if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+			# Ensure the index is up to date.
+			git update-index --really-refresh -q &>/dev/null;
+
+			# Check for uncommitted changes in the index.
+			if ! $(git diff --quiet --ignore-submodules --cached); then
+				s+='+';
+			fi;
+
+			# Check for unstaged changes.
+			if ! $(git diff-files --quiet --ignore-submodules --); then
+				s+='!';
+			fi;
+
+			# Check for untracked files.
+			if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+				s+='?';
+			fi;
+
+			# Check for stashed files.
+			if $(git rev-parse --verify refs/stash &>/dev/null); then
+				s+='$';
+			fi;
+
+		fi;
+
+		# Get the short symbolic ref.
+		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+		# Otherwise, just give up.
+		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+			git rev-parse --short HEAD 2> /dev/null || \
+			echo '(unknown)')";
+
+		[ -n "${s}" ] && s="[${s}]";
+
+		echo -e "${echo_white}${s} ${echo_green}${branchName}";
+	else
+		return;
+	fi;
+}
+
 PS1=""
 #PS2=""
 LEFT=""
@@ -40,17 +94,7 @@ LEFT+="${white}["
 LEFT+="${cdir}\w"
 LEFT+="${white}]${normal}${Line}"
 # SCM
-function scm_char(){
-    SCM_CHAR=""
-    if [[ -f .git/HEAD ]] && which git &> /dev/null; then SCM_CHAR="±"
-    elif which git &> /dev/null && [[ -n "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]]; then SCM_CHAR="±"
-    fi
-    echo -e "${SCM_CHAR}"
-}
-LEFT+="${white}["
-LEFT+="${white}\$(scm_char)"
-LEFT+="${white}] "
-LEFT+="${green}SCM_Info"
+LEFT+="\$(scm_info)"
 
 ___cursor_right="\e[500C"
 LEFT+="${___cursor_right}"
