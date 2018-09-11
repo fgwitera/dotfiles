@@ -76,9 +76,9 @@ scm_info() {
         else s="[✓]"
         fi
 
-		echo -e "${echo_white}${s} ${echo_green}${branchName}";
+		echo -e "${echo_green}${branchName} ${echo_white}${s}";
 	else
-		return;
+		echo -e "";
 	fi;
 }
 
@@ -90,13 +90,14 @@ RIGHT=""
 # User Info
 LEFT+="${normal}${LineA}${normal}${Line}${white}["
 LEFT+="${cuser}\u${normal}@${chost}\h"
-LEFT+="${white}]${normal}${Line}"
+LEFT+="${white}]${normal}"
 # Directory
-LEFT+="${white}["
+LEFT+="${Line}${white}["
 LEFT+="${cdir}\w"
-LEFT+="${white}]${normal}${Line}"
+LEFT+="${white}]${normal}"
 # SCM
-LEFT+="\$(scm_info)"
+SCM="\$(scm_info)"
+[ -n "${SCM}" ] && LEFT+=" ${SCM}${normal}"
 
 ___cursor_right="\e[500C"
 LEFT+="${___cursor_right}"
