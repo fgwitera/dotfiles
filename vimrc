@@ -8,9 +8,8 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
-" Colorsheme
-Plugin 'git@github.com:fugalh/desert.vim.git'
-Plugin 'scrooloose/nerdtree'
+" A Vim Plugin for Lively Previewing LaTeX PDF Output
+Plugin 'xuhdev/vim-latex-live-preview'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
