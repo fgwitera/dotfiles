@@ -8,13 +8,15 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'fugalh/desert.vim'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+colorscheme desert
+
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
-
-colorscheme desert
 
 set list
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
