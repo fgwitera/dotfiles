@@ -20,6 +20,8 @@ syntax enable
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
 
+let mapleader = ","
+
 set list
 set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 set showbreak=↪
@@ -57,7 +59,6 @@ set foldnestmax=10      " 10 nested fold max
 nnoremap <leader><TAB> za
 set foldmethod=indent   " fold based on indent level
 
-let mapleader = ","
 " more convenient esc
 inoremap jk <Esc>
 inoremap kj <Esc>
