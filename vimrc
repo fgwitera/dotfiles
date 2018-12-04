@@ -36,7 +36,6 @@ if has("folding")
     set foldnestmax=10      " 10 nested fold max
     " toggle folds
     nnoremap <Space> za
-    space open/closes folds
     set foldmethod=indent   " fold based on indent level
 endif
 
