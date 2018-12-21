@@ -127,7 +127,7 @@ RIGHT+="${white}["
 BAT="\$(battery)"
 RIGHT+=${BAT}
 RIGHT+="${white}]"
-__right_len=$((__right_len + 1 + ${#BAT} -7 + 1))
+__right_len=$((__right_len + 1 + ${#BAT} -8 + 1))
 
 ___cursor_adjust="\e[${__right_len}D"
 LEFT+="${___cursor_adjust}"
@@ -138,6 +138,6 @@ PS1+="\n${white}"
 
 prompt="${normal}${LineB}${white}${Circle}"
 if [ $(sudo -n id -u 2>&1 | grep 0) ]; then
-    prompt="${normal}${LineB}${bold_red}${Face}"
+    prompt="${normal}${LineB}${bold_red}${Face} "
 fi
 PS1+="${prompt}${normal} "

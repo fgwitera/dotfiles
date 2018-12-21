@@ -69,16 +69,16 @@ function usage ()
 # Battery
 
 ac_adapter_connected(){
-    cat /sys/class/power_supply/battery/status | grep -q 'Charging\|Fully-charged'
+    upower -i $(upower -e | grep BAT) | grep 'state' | grep -q 'charging\|fully-charged'
     return $?
 }
 
 ac_adapter_disconnected(){
-    cat /sys/class/power_supply/battery/status | grep -q 'Discharging'
+    upower -i $(upower -e | grep BAT) | grep 'state' | grep -q 'discharging'
     return $?
 }
 battery_percentage(){
-    COMMAND_OUTPUT=$(cat /sys/class/power_supply/battery/capacity)
+    COMMAND_OUTPUT=$(upower --show-info $(upower --enumerate | grep BAT) | grep percentage | grep -o "[0-9]\+" | head -1)
     printf "%02d" "${COMMAND_OUTPUT}"
 }
 
