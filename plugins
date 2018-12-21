@@ -2,7 +2,7 @@
 
 function ips ()
 {
-    about 'display all ip addresses for this host'
+    # about 'display all ip addresses for this host'
     if command -v ifconfig &>/dev/null
     then
         ifconfig | awk '/inet /{ gsub(/addr:/, ""); print $2 }'
@@ -16,7 +16,7 @@ function ips ()
 
 function myip ()
 {
-    about 'displays your ip address, as seen by the Internet'
+    # about 'displays your ip address, as seen by the Internet'
     list=("http://myip.dnsomatic.com/" "http://checkip.dyndns.com/" "http://checkip.dyndns.org/")
     for url in ${list[*]}
     do
@@ -31,7 +31,7 @@ function myip ()
 
 function mkcd ()
 {
-    about 'make one or more directories and cd into the last one'
+    # about 'make one or more directories and cd into the last one'
     param 'one or more directories to create'
     example '$ mkcd foo'
     example '$ mkcd /tmp/img/photos/large'
@@ -42,14 +42,14 @@ function mkcd ()
 
 function lsgrep ()
 {
-    about 'search through directory contents with grep'
+    # about 'search through directory contents with grep'
     ls | grep "$*"
 }
 
 function usage ()
 {
-    about 'disk usage per directory, in Mac OS X and Linux'
-    param '1: directory name'
+    # about 'disk usage per directory, in Mac OS X and Linux'
+    # param '1: directory name'
     if [ $(uname) = "Darwin" ]; then
         if [ -n "$1" ]; then
             du -hd 1 "$1"
